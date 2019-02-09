@@ -84,9 +84,12 @@ class CarsSpider(Spider):
 		title = response.xpath('//h1[@class="cui-heading-2--secondary vehicle-info__title"]/text()').extract_first()
 		year = re.search('\d{4} [A-za-z- ]+ [A-za-z0-9-]+', response.xpath('//h1[@class="cui-heading-2--secondary vehicle-info__title"]/text()').extract_first()).group().split()[0]
 		made = re.search('\d{4} [A-za-z- ]+ [A-za-z0-9-]+', response.xpath('//h1[@class="cui-heading-2--secondary vehicle-info__title"]/text()').extract_first()).group().split()[1]
-		model = re.search('\d{4} [A-za-z- ]+ [A-za-z0-9-]+', response.xpath('//h1[@class="cui-heading-2--secondary vehicle-info__title"]/text()').extract_first()).group().split()[2]
 		price = response.xpath('//*[@class="vehicle-info__price"]//text()').extract_first()
 
+		try:
+			model = re.search('\d{4} [A-za-z- ]+ [A-za-z0-9-]+', response.xpath('//h1[@class="cui-heading-2--secondary vehicle-info__title"]/text()').extract_first()).group().split()[2]
+		except TypeError:
+			mdoel = ''
 
 		try:
 			slrzip = re.findall('\d{5}', response.xpath('//*[@class="get-directions-link seller-details-location__text"]/a/text()').extract_first())[0]
